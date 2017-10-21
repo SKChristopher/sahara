@@ -4,7 +4,7 @@ import React from 'react';
 class Header extends React.Component {
   render() {
     return(
-      <div id="sign-in container">
+      <div id="header-container">
         <div id="logo-container">
           <img alt="logo"/>
         </div>

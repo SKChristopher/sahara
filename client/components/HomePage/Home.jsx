@@ -1,10 +1,11 @@
 import React from 'react';
 
-import Header from './Header';
+import Header from './../Header';
 import Search from './Search';
 import ImageSlider from './ImageSlider';
 import Products from './Products';
 import Cart from './Cart';
+
 
 class Home extends React.Component {
   render() {

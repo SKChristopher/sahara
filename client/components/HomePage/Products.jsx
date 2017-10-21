@@ -14,9 +14,9 @@ class Products extends React.Component {
             <p>product description</p>
           </div>
           <div>
-            <label for="quantity">Qty: </label>
-            <select name="quantity">
-              <option value="1" selected>1</option>
+            <label>Qty: </label>
+            <select name="quantity" defaultValue="1">
+              <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 class Cart extends React.Component {
@@ -9,7 +10,9 @@ class Cart extends React.Component {
           <p>My Cart:</p>
           
           <p>Subtotal: </p>
-          <button>Checkout</button>
+          <Link to="/cart">
+            <button>Checkout</button>
+          </Link>
         </div>
       </div>
     );

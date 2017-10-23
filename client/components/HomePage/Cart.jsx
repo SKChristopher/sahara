@@ -8,7 +8,7 @@ const Cart = () => (
       <p>My Cart:</p>
       
       <p>Subtotal: </p>
-      <Link to="/cart">
+      <Link to="/">
         <button>Checkout</button>
       </Link>
     </div>

@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get('/', dataManager.post, (req, res) => res.sendFile('index.html'));
+app.get('/', dataManager.post, (req, res) => res.sendFile(path.join(__dirname, 'build/index.html')));
 
 app.post('/verifyUser', userController.verify);
 app.post('/createUser', userController.create);

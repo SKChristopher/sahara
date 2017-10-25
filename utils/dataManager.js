@@ -1,17 +1,18 @@
-const inventory = require('./../data/inventory');
+const Inventory = require('./../data/inventory.js');
 const Item = require('./../models/item');
-const itemController = require('./../controllers/item');
+const itemController = require('./../controllers/item.js');
 
 const dataManager = {
   post: (req, res, next) => {
+    console.log('hello please respond please jesus christ');
     Item.findOne({ itemNum: 100 }, (err, result) => {
       if (result) return;
-      for (let i = 0; i < inventory.length; i += 1) {
+      for (let i = 0; i < Inventory.length; i += 1) {
         const objectt = {
-          itemNum: inventory[i].itemNum,
-          name: inventory[i].name,
-          description: inventory[i].description,
-          price: inventory[i].price
+          itemNum: Inventory[i].itemNum,
+          name: Inventory[i].name,
+          price: Inventory[i].price,
+          description: Inventory[i].description,
         }
         itemController.create(objectt);
       }

@@ -37,7 +37,7 @@ class App extends React.Component {
       .then((response) => {
         inventory = response.data;
         this.setState({ inventory });
-      })
+      });
   }
 
   handleSignIn(e) {

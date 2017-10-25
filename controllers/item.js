@@ -22,6 +22,6 @@ const itemController = {
       return res.send(item);
     });
   },
-}
+};
 
 module.exports = itemController;

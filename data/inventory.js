@@ -8,7 +8,7 @@ const Inventory = [
   {
     itemNum: 101,
     name: 'Item 2',
-    price: 8.50,
+    price: 8.5,
     description: 'second item, tbh rly friggin sick',
   },
   {

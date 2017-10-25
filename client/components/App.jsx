@@ -17,9 +17,27 @@ class App extends React.Component {
     super(props);
     this.state = {
       username: "guest",
+      inventory: [],
     };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchInventory();
+    if (this.state.inventory.length === 0) this.fetchInventory();
+  }
+
+  fetchInventory() {
+    const obj = Object.assign({}, this.state);
+    let inventory = obj.inventory;
+
+    axios.get('/getInventory')
+      .then((response) => {
+        inventory = response.data;
+        this.setState({ inventory });
+      })
   }
 
   handleSignIn(e) {
@@ -34,7 +52,8 @@ class App extends React.Component {
       .then(response => {
         if (response.data !== false) {
           this.setState({ username });
-        } else { console.log('failed login'); }
+          alert('Logged in as ' + username);
+        } else { alert('Invalid Login'); }
       });
 
     e.target.username.value = "";
@@ -54,19 +73,28 @@ class App extends React.Component {
       .then(response => {
         if (response.data === true) {
           this.setState({ username });
-        } else if (response.data !== true) return;
+          alert('Account created! You are now logged in as ' + username);
+        } else if (response.data !== true) {
+          alert('Error, account not created.');
+          return;
+        }
       });
 
     e.target.username.value = "";
     e.target.password.value = "";
   }
 
+  handleSearch(e) {
+    e.preventDefault();
+    console.log(this.state.inventory);
+  }
+
   render() {
     return (
       <div id="app-container">
-        {this.state.username}
+        {'Logged in as: ' + this.state.username}
         <Header signIn={this.handleSignIn} signUp={this.handleSignUp} />
-        <Search />
+        <Search search={this.handleSearch} />
         <ImageSlider />
         <Products />
         <Cart />

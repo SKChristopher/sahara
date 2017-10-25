@@ -2,10 +2,12 @@ import React from 'react';
 
 
 const Search = (props) => {
-  return(
+  return (
     <div id="search-container">
-      <input type="text"></input>
-      <button>Search</button>
+      <form onSubmit={props.search}>
+        <input type="text" placeholder="search"></input>
+        <button type="submit">Search</button>
+      </form>
     </div>
   );
 }

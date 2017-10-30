@@ -2,7 +2,7 @@ import React from 'react';
 import inventoryImages from './../../data/inventoryImages';
 import './../styles/items.scss';
 
-const Items = ({ inventory }) => {
+const Items = ({ inventory, addToCart, showFullDescription }) => {
   const arr = inventory.map((item, index) => {
     if (item.description.length < 200) {
       return (
@@ -15,7 +15,7 @@ const Items = ({ inventory }) => {
           </div>
           <div id='submit-container'>
             <label> Qty: </label>
-            <select name="quantity" defaultValue="1">
+            <select id={"select" + index} name="quantity" defaultValue="1">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -23,7 +23,7 @@ const Items = ({ inventory }) => {
               <option value="5">5</option>
             </select>
             <br />
-            <button>Add to Cart</button>
+            <button id={"Button" + index} onClick={addToCart}>Add to Cart</button>
             <br />
             <button>Add to Wishlist</button>
           </div>
@@ -34,12 +34,12 @@ const Items = ({ inventory }) => {
         <div className="item">
           <img className='inventoryImage' src={inventoryImages[item.name]} />
           <h2 className='itemText' id='itemName'>{item.name}</h2>
-          <p className='itemText'>{item.description.substring(0, 197) + "..."}</p>
+          <p className='itemText'>{item.description.substring(0, 197)}<span id={item.description} onMouseOver={showFullDescription}>...</span></p>
           <p className='itemText' id='itemPrice'>$ {item.price.toFixed(2)}</p>
         </div>
         <div id='submit-container'>
           <label> Qty: </label>
-          <select name="quantity" defaultValue="1">
+          <select id={"select" + index} name="quantity" defaultValue="1">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -47,7 +47,7 @@ const Items = ({ inventory }) => {
             <option value="5">5</option>
           </select>
           <br />
-          <button>Add to Cart</button>
+          <button id={"Button" + index} onClick={addToCart}>Add to Cart</button>
           <br />
           <button>Add to Wishlist</button>
         </div>

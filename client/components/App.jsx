@@ -21,6 +21,9 @@ class App extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleClearSearch = this.handleClearSearch.bind(this);
     this.handleAddToCart = this.handleAddToCart.bind(this);
+    this.handleShowFullDescription = this.handleShowFullDescription.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
+    this.handleClearCart = this.handleClearCart.bind(this);
   }
 
   componentDidMount() {
@@ -113,13 +116,47 @@ class App extends Component {
     e.preventDefault();
     const obj = Object.assign({}, this.state);
     let cart = obj.cart;
-    let inventory = obj.inventoryStorage;
-    console.log('hello');
+    let inventory = obj.inventory;
+    const x = Math.round(e.target.id.replace(/[^0-9]/g, ''));
+    const quantitySelect = document.getElementById('select' + [x])
+    let quantity = quantitySelect.options[quantitySelect.selectedIndex].value;
+    console.log(quantity);
+
+    if (cart.indexOf(inventory[x]) === -1) {
+      cart.push(inventory[x]);
+    }
+
+    this.setState({ cart });
+  }
+
+  handleShowFullDescription(e) {
+    console.log(e.target.id);
+  }
+
+  handleRemove(e) {
+    e.preventDefault();
+    const obj = Object.assign({}, this.state);
+    let cart = obj.cart;
+
+    cart = cart.filter((x) => {
+      return (x.name !== e.target.id);
+    });
+    this.setState({ cart });
+  }
+
+  handleClearCart(e) {
+    e.preventDefault();
+    const obj = Object.assign({}, this.state);
+    let cart = obj.cart;
+
+    cart = [];
+    this.setState({ cart });
   }
 
   render() {
     return (
       <div>
+        Logged in as: {this.state.username}
         <div id="sign-in-container">
           <form onSubmit={this.handleSignIn} >
             <input type="text" placeholder="username" name="username"></input>
@@ -135,8 +172,8 @@ class App extends Component {
           </form>
         </div>
         <Search clearSearch={this.handleClearSearch} search={this.handleSearch} />
-        <Items inventory={this.state.inventory} addToCart={this.handleAddToCart}/>
-        <Cart cart={this.state.cart} />
+        <Items showFullDescription={this.handleShowFullDescription} inventory={this.state.inventory} addToCart={this.handleAddToCart} />
+        <Cart clearCart={this.handleClearCart} remove={this.handleRemove} cart={this.state.cart} />
       </div>
     );
   }

@@ -1,0 +1,53 @@
+#inventory-container {
+  margin: 100px 0px 100px 0px;
+  position: absolute;
+  width: 100%;
+  .item-container {
+    margin-left: 20%;
+    .item {
+      margin: 5px 0px 5px 0px;
+      display: inline-block;
+      border-left: 3px solid black;
+      height: 200px;
+      width: 500px;
+      margin: 2px 0px 2px 0px;
+      position: relative;
+      #itemName {
+        white-space: nowrap;
+        margin-top: 0px;
+      }
+      .itemText {
+        margin-left: 225px;
+        position: relative;
+       }
+       #itemPrice {
+        color: green;
+        font-weight: 600;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin: 0;
+      }
+      .inventoryImage {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+      }
+    }
+    #submit-container {
+      margin: 50px 0px 0px 15px;
+      display: inline;
+      position: absolute;
+      select {
+        width: 92.56px;
+      }
+      button {
+        width: 125px;
+      }
+    }
+  }
+}
+
+
+
+

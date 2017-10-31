@@ -71,6 +71,18 @@ const Inventory = [
     price: 9.99,
     description: 'Hunt some boars with this sick AF hunting knife. Perfect for any outdoorsman.',
   },
+  {
+    itemNum: 112,
+    name: "Severed Arm",
+    price: 19.99,
+    description: 'Realistic looking and perfect for those last minute costume ideas. Use as a halloween decoration at parties, haunted houses and other creepy displays. Great for use as a theater prop.',
+  },
+  {
+    itemNum: 113,
+    name: "Voltron Legendary Yellow Lion",
+    price: 17.86,
+    description: "Includes an armored disc launcher. Transforms into Voltron's left leg to combine with Legendary Lions to form 16inch Voltron! Includes speeder with pilot, Hunk.",
+  },
 ];
 
 module.exports = Inventory;

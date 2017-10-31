@@ -11,6 +11,8 @@ const inventoryImages = {
   'Harry Potter Ceramic Cauldron Mug': 'https://images-na.ssl-images-amazon.com/images/I/91raaowbJtL._SL1500_.jpg',
   'Air Kicks Anti-Gravity Running Boots': 'https://images-na.ssl-images-amazon.com/images/I/71PRB54MljL._SL1500_.jpg',
   'Rogue 10-inch Fixed Blade Hunting Knife': 'https://images-na.ssl-images-amazon.com/images/I/81dt06wqlPL._SL1500_.jpg',
+  'Severed Arm': 'https://images-na.ssl-images-amazon.com/images/I/71IOaaE6X1L._SL1500_.jpg',
+  'Voltron Legendary Yellow Lion': 'https://images-na.ssl-images-amazon.com/images/I/81qMBdfLQsL._SL1500_.jpg',
 };
 
 module.exports = inventoryImages;

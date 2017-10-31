@@ -53,4 +53,16 @@
       }
     }
   }
+  #description {
+    display: none;
+    background-color: lightgrey;
+    z-index: 1;
+    width: 300px;
+    position: absolute;
+    box-shadow: 
+		0 5px 15px 1px rgba(0, 0, 0, 0.6), 
+    0 0 200px 1px rgba(255, 255, 255, 0.5);
+    text-align: center;
+    padding: 5px 0px 5px 0px;
+  }
 }

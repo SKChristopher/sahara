@@ -2,7 +2,7 @@ import React from 'react';
 import inventoryImages from './../../data/inventoryImages';
 import './../styles/items.scss';
 
-const Items = ({ inventory, addToCart, showFullDescription }) => {
+const Items = ({ inventory, addToCart, showFullDescription, hideFullDescription, description }) => {
   const arr = inventory.map((item, index) => {
     if (item.description.length < 200) {
       return (
@@ -39,7 +39,7 @@ const Items = ({ inventory, addToCart, showFullDescription }) => {
         <div className="item">
           <img className='inventoryImage' src={inventoryImages[item.name]} />
           <h2 className='itemText' id='itemName'>{item.name}</h2>
-          <p className='itemText'>{item.description.substring(0, 197)}<span id={item.description} onMouseOver={showFullDescription}>...</span></p>
+          <p className='itemText'>{item.description.substring(0, 197)}<span id={item.description} onMouseOver={showFullDescription} onMouseOut={hideFullDescription}>...</span></p>
           <p className='itemText' id='itemPrice'>$ {item.price.toFixed(2)}</p>
         </div>
         <div id='submit-container'>
@@ -67,6 +67,7 @@ const Items = ({ inventory, addToCart, showFullDescription }) => {
   return (
     <div id='inventory-container'>
       {arr}
+      <p id="description">{description}</p>
     </div>
   )
 };

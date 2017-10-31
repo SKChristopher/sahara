@@ -15,7 +15,7 @@ const Checkout = ({ closeWindow, enableConfirmPurchase, confirmPurchase }) => {
           <br />
           <input type="text" placeholder="Address" name="address"></input>
           <br />
-          <input type="text" placeholder="Credit Card #" name="creditcard"></input>
+          <input id="credit-card" type="text" placeholder="Credit Card #" name="creditcard"></input>
           <br />
           <input onClick={enableConfirmPurchase} id="checkbox" type="checkbox" name="ready" value="ready"></input>I agree to pay and I'm ready to checkout.
           <br />

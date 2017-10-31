@@ -17,6 +17,7 @@ class App extends Component {
       username: "guest",
       search: '',
       qty: [],
+      description: '',
     };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -24,6 +25,7 @@ class App extends Component {
     this.handleClearSearch = this.handleClearSearch.bind(this);
     this.handleAddToCart = this.handleAddToCart.bind(this);
     this.handleShowFullDescription = this.handleShowFullDescription.bind(this);
+    this.handleHideFullDescription = this.handleHideFullDescription.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleClearCart = this.handleClearCart.bind(this);
     this.handleCheckout = this.handleCheckout.bind(this);
@@ -119,8 +121,19 @@ class App extends Component {
 
   // --------------------------------------------------- inventory -----------------------------------------------------------------------------------------------------------
   handleShowFullDescription(e) {
-    console.log(e.target.id);
+    let descriptionBox = document.getElementById('description');
+    let description = e.target.id
+    let x = e.pageX;
+    let y = e.pageY;
+    descriptionBox.style.left = x + 'px';
+    descriptionBox.style.top = y - 175 + 'px';
+    descriptionBox.style.display = 'block';
+    this.setState({ description });
+  }
 
+  handleHideFullDescription(e) {
+    let descriptionBox = document.getElementById('description');
+    descriptionBox.style.display = 'none';
   }
 
   // --------------------------------------------------- cart management -----------------------------------------------------------------------------------------------------------
@@ -137,7 +150,7 @@ class App extends Component {
     if (cart.indexOf(inventory[x]) === -1) {
       cart.push(inventory[x]);
       qty.push(quantity);
-    } else { alert('That item is already in your cart!')}
+    } else { alert('That item is already in your cart!') }
 
     this.setState({ cart, qty });
   }
@@ -171,11 +184,10 @@ class App extends Component {
     this.setState({ cart, qty });
   }
 
-    // --------------------------------------------------- checking out -----------------------------------------------------------------------------------------------------------
+  // --------------------------------------------------- checking out -----------------------------------------------------------------------------------------------------------
   handleCheckout() {
     let checkout = document.getElementById('fade');
     checkout.style.display = 'block';
-
   }
 
   handleCloseWindow() {
@@ -200,7 +212,48 @@ class App extends Component {
 
   handleConfirmPurchase(e) {
     e.preventDefault();
+    const obj = Object.assign({}, this.state);
+    let cart = obj.cart;
+    let qty = obj.qty;
+    const checkout = document.getElementById('fade');
+    const checkbox = document.getElementById('checkbox');
+    const confirmPurchase = document.getElementById('confirmPurchase');
+    const creditCardInput = document.getElementById('credit-card');
+
+    for (let i = 0; i < cart.length; i += 1) {
+      cart[i].qty = qty[i];
+     // cart[i].description = '';
+    }
+
+    if (e.target.firstname.value !== '' && e.target.lastname.value !== '' && e.target.address.value !== '' && e.target.creditcard.value !== '') {
+      axios.post("confirmPurchase", {
+        firstname: e.target.firstname.value,
+        lastname: e.target.lastname.value,
+        address: e.target.address.value,
+        creditcard: e.target.creditcard.value,
+        purchase: cart,
+      })
+        .then(response => {
+          if (response.data === true) {
+            alert('Purchase Complete!');
+          } else if (response.data !== true) {
+            alert('Error, purchase not successful.');  
+            return;
+          }
+        });
+
+        checkout.style.display = 'none';
+        checkbox.checked = false;
+        confirmPurchase.disabled = true;
+        creditCardInput.value = '';
+        cart = [];
+        qty = [];
+        this.setState({ cart, qty });
+    } else alert('Error, purchase not successful. Please fill out all fields.');
+
+
   }
+
 
   render() {
     return (
@@ -221,9 +274,9 @@ class App extends Component {
           </form>
         </div>
         <Search clearSearch={this.handleClearSearch} search={this.handleSearch} />
-        <Items showFullDescription={this.handleShowFullDescription} inventory={this.state.inventory} addToCart={this.handleAddToCart} />
-        <Cart checkout={this.handleCheckout} clearCart={this.handleClearCart} remove={this.handleRemove} cart={this.state.cart} qty={this.state.qty}/>
-        <Checkout confirmPurchase={this.handleConfirmPurchase} enableConfirmPurchase={this.enableConfirmPurchase} closeWindow={this.handleCloseWindow}/>
+        <Items showFullDescription={this.handleShowFullDescription} hideFullDescription={this.handleHideFullDescription} inventory={this.state.inventory} addToCart={this.handleAddToCart} description={this.state.description} />
+        <Cart checkout={this.handleCheckout} clearCart={this.handleClearCart} remove={this.handleRemove} cart={this.state.cart} qty={this.state.qty} />
+        <Checkout confirmPurchase={this.handleConfirmPurchase} enableConfirmPurchase={this.enableConfirmPurchase} closeWindow={this.handleCloseWindow} />
       </div>
     );
   }

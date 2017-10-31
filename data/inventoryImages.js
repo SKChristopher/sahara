@@ -10,8 +10,7 @@ const inventoryImages = {
   'Hammer': 'https://images-na.ssl-images-amazon.com/images/I/51IqfIbZKLL._SL1000_.jpg',
   'Harry Potter Ceramic Cauldron Mug': 'https://images-na.ssl-images-amazon.com/images/I/91raaowbJtL._SL1500_.jpg',
   'Air Kicks Anti-Gravity Running Boots': 'https://images-na.ssl-images-amazon.com/images/I/71PRB54MljL._SL1500_.jpg',
-
-
+  'Rogue 10-inch Fixed Blade Hunting Knife': 'https://images-na.ssl-images-amazon.com/images/I/81dt06wqlPL._SL1500_.jpg',
 };
 
 module.exports = inventoryImages;

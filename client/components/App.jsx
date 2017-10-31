@@ -5,6 +5,7 @@ import Container from './Container.jsx';
 import Items from './Items.jsx';
 import Search from './Search.jsx';
 import Cart from './Cart.jsx';
+import Checkout from './Checkout.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class App extends Component {
       cart: [],
       username: "guest",
       search: '',
+      qty: [],
     };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -24,6 +26,10 @@ class App extends Component {
     this.handleShowFullDescription = this.handleShowFullDescription.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleClearCart = this.handleClearCart.bind(this);
+    this.handleCheckout = this.handleCheckout.bind(this);
+    this.handleCloseWindow = this.handleCloseWindow.bind(this);
+    this.enableConfirmPurchase = this.enableConfirmPurchase.bind(this);
+    this.handleConfirmPurchase = this.handleConfirmPurchase.bind(this);
   }
 
   componentDidMount() {
@@ -42,7 +48,7 @@ class App extends Component {
       });
   }
 
-  //Sign-in / Sign-up
+  // --------------------------------------------------- Sign-in / Sign-up -----------------------------------------------------------------------------------------------------------
   handleSignIn(e) {
     e.preventDefault();
     const obj = Object.assign({}, this.state);
@@ -88,7 +94,7 @@ class App extends Component {
     e.target.password.value = "";
   }
 
-  //searching
+  // --------------------------------------------------- searching -----------------------------------------------------------------------------------------------------------
   handleSearch(e) {
     e.preventDefault();
     const obj = Object.assign({}, this.state);
@@ -111,46 +117,89 @@ class App extends Component {
     console.log('hello');
   }
 
-  //cart management
+  // --------------------------------------------------- inventory -----------------------------------------------------------------------------------------------------------
+  handleShowFullDescription(e) {
+    console.log(e.target.id);
+
+  }
+
+  // --------------------------------------------------- cart management -----------------------------------------------------------------------------------------------------------
   handleAddToCart(e) {
     e.preventDefault();
     const obj = Object.assign({}, this.state);
     let cart = obj.cart;
     let inventory = obj.inventory;
+    let qty = obj.qty;
     const x = Math.round(e.target.id.replace(/[^0-9]/g, ''));
     const quantitySelect = document.getElementById('select' + [x])
-    let quantity = quantitySelect.options[quantitySelect.selectedIndex].value;
-    console.log(quantity);
+    const quantity = quantitySelect.options[quantitySelect.selectedIndex].value;
 
     if (cart.indexOf(inventory[x]) === -1) {
       cart.push(inventory[x]);
-    }
+      qty.push(quantity);
+    } else { alert('That item is already in your cart!')}
 
-    this.setState({ cart });
-  }
-
-  handleShowFullDescription(e) {
-    console.log(e.target.id);
+    this.setState({ cart, qty });
   }
 
   handleRemove(e) {
     e.preventDefault();
     const obj = Object.assign({}, this.state);
     let cart = obj.cart;
+    let qty = obj.qty;
+
+    let qtyIndex = cart.findIndex((x) => {
+      return (x.name === e.target.id);
+    });
 
     cart = cart.filter((x) => {
       return (x.name !== e.target.id);
     });
-    this.setState({ cart });
+
+    qty.splice(qtyIndex, 1);
+    this.setState({ cart, qty });
   }
 
   handleClearCart(e) {
     e.preventDefault();
     const obj = Object.assign({}, this.state);
     let cart = obj.cart;
+    let qty = obj.qty;
 
     cart = [];
-    this.setState({ cart });
+    qty = [];
+    this.setState({ cart, qty });
+  }
+
+    // --------------------------------------------------- checking out -----------------------------------------------------------------------------------------------------------
+  handleCheckout() {
+    let checkout = document.getElementById('fade');
+    checkout.style.display = 'block';
+
+  }
+
+  handleCloseWindow() {
+    const checkout = document.getElementById('fade');
+    const checkbox = document.getElementById('checkbox');
+    const confirmPurchase = document.getElementById('confirmPurchase');
+    checkout.style.display = 'none';
+    checkbox.checked = false;
+    confirmPurchase.disabled = true;
+  }
+
+  enableConfirmPurchase() {
+    const checkbox = document.getElementById('checkbox');
+    const confirmPurchase = document.getElementById('confirmPurchase');
+
+    if (checkbox.checked === true) {
+      confirmPurchase.disabled = false;
+    } else {
+      confirmPurchase.disabled = true;
+    }
+  }
+
+  handleConfirmPurchase(e) {
+    e.preventDefault();
   }
 
   render() {
@@ -173,7 +222,8 @@ class App extends Component {
         </div>
         <Search clearSearch={this.handleClearSearch} search={this.handleSearch} />
         <Items showFullDescription={this.handleShowFullDescription} inventory={this.state.inventory} addToCart={this.handleAddToCart} />
-        <Cart clearCart={this.handleClearCart} remove={this.handleRemove} cart={this.state.cart} />
+        <Cart checkout={this.handleCheckout} clearCart={this.handleClearCart} remove={this.handleRemove} cart={this.state.cart} qty={this.state.qty}/>
+        <Checkout confirmPurchase={this.handleConfirmPurchase} enableConfirmPurchase={this.enableConfirmPurchase} closeWindow={this.handleCloseWindow}/>
       </div>
     );
   }

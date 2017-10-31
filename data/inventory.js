@@ -65,6 +65,12 @@ const Inventory = [
     price: 199.99,
     description: 'Get ready to burn off some energy! Everyone will want to have a turn using the super cool Air Kicks Anti-Gravity Boots. The new design retains the patented JUMPING JAX technology, which utilizes heavy-duty, rubber T-Springs to capture and then transform downward energy into longer, low-impact strides that are gentle on the ankles, knees and back. Not only do AIR KICKS Anti-Gravity Boots deliver a soft cushiony motion that’s gentle on joints and bones, they also provide a sensational calorie-burning, coordination-building, leg-strengthening workout. They feature high-traction non-marking treads that are safe to use on virtually any surface, indoors or out, and won’t mark on floors!',
   },
+  {
+    itemNum: 111,
+    name: "Rogue 10-inch Fixed Blade Hunting Knife",
+    price: 9.99,
+    description: 'Hunt some boars with this sick AF hunting knife. Perfect for any outdoorsman.',
+  },
 ];
 
 module.exports = Inventory;

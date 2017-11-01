@@ -1,8 +1,63 @@
+@import url(https://fonts.googleapis.com/css?family=Archivo+Black);
+
 .cart {
   position: fixed;
-  width: 30%;
+  width: 29%;
   h2 {
-    background-color: lightgreen;
+    background-color: black;
+    color: white;
     text-align: center;
+    font-family: 'Lato', sans-serif;
+  }
+  li {
+    list-style: none;
+    margin-bottom: 3px;
+  }
+  button {
+    width: 125px;
+  }
+  .cartImage {
+    max-height: 25px;
+    top: 9.5px;
+    position: relative;
+  }
+  .x-button {
+    width: 50px;
+    background-color: black;
+    text-decoration: none;
+    padding: 4px;
+    font-size: 10px;
+    font-family: 'Archivo Black', sans-serif;
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    color: white;
+  }
+  .checkout-button {
+    margin: 5px 0px 5px 0px;
+    background-color: white;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid;
+  }
+  .checkout-button:hover {
+    background-color: black;
+    color: white;
+  }
+  .clearCart-button {
+    background-color: black;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+    font-size: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 0;
+    color: white;
+  }
+  #total {
+    color: green;
   }
 }

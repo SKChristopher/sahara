@@ -1,8 +1,9 @@
 import React from 'react';
 import inventoryImages from './../../data/inventoryImages';
 import './../styles/items.scss';
+import FontAwesome from 'react-fontawesome';
 
-const Items = ({ inventory, addToCart, showFullDescription, hideFullDescription, description }) => {
+const Items = ({ inventory, addToCart, showFullDescription, hideFullDescription, description, addToWishlist }) => {
   const arr = inventory.map((item, index) => {
     if (item.description.length < 200) {
       return (
@@ -10,8 +11,8 @@ const Items = ({ inventory, addToCart, showFullDescription, hideFullDescription,
           <div className="item">
             <img className='inventoryImage' src={inventoryImages[item.name]} />
             <h2 className='itemText' id='itemName'>{item.name}</h2>
-            <p className='itemText'>{item.description}</p>
             <p className='itemText' id='itemPrice'>$ {item.price.toFixed(2)}</p>
+            <p className='itemText'>{item.description}</p>
           </div>
           <div id='submit-container'>
             <label> Qty: </label>
@@ -28,9 +29,9 @@ const Items = ({ inventory, addToCart, showFullDescription, hideFullDescription,
               <option value="10">10</option>
             </select>
             <br />
-            <button id={"Button" + index} onClick={addToCart}>Add to Cart</button>
+            <button className="addToCartButton" id={"Button" + index} onClick={addToCart}><FontAwesome id="cartIcon" name="cart-plus"/> Add to Cart</button>
             <br />
-            <button>Add to Wishlist</button>
+            <button className="addToWishListButton" id={"WLButton" + index} onClick={addToWishlist} ><FontAwesome id="wishlistIcon" name="heart"/> Add to Wishlist</button>
           </div>
         </div>
       );
@@ -39,8 +40,8 @@ const Items = ({ inventory, addToCart, showFullDescription, hideFullDescription,
         <div className="item">
           <img className='inventoryImage' src={inventoryImages[item.name]} />
           <h2 className='itemText' id='itemName'>{item.name}</h2>
-          <p className='itemText'>{item.description.substring(0, 197)}<span id={item.description} onMouseOver={showFullDescription} onMouseOut={hideFullDescription}>...</span></p>
           <p className='itemText' id='itemPrice'>$ {item.price.toFixed(2)}</p>
+          <p className='itemText'>{item.description.substring(0, 197)}<span id={item.description} onMouseOver={showFullDescription} onMouseOut={hideFullDescription}>...</span></p>
         </div>
         <div id='submit-container'>
           <label> Qty: </label>
@@ -57,9 +58,9 @@ const Items = ({ inventory, addToCart, showFullDescription, hideFullDescription,
             <option value="10">10</option>
           </select>
           <br />
-          <button id={"Button" + index} onClick={addToCart}>Add to Cart</button>
+          <button className="addToCartButton" id={"Button" + index} onClick={addToCart}><FontAwesome id="cartIcon" name="cart-plus"/> Add to Cart</button>
           <br />
-          <button>Add to Wishlist</button>
+          <button className="addToWishListButton" id={"WLButton" + index} onClick={addToWishlist} ><FontAwesome id="wishlistIcon" name="heart"/> Add to Wishlist</button>
         </div>
       </div>
     );

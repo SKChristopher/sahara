@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import Container from './Container.jsx';
+import SignIn from './SignIn.jsx';
 import Items from './Items.jsx';
 import Search from './Search.jsx';
 import Cart from './Cart.jsx';
+import Wishlist from './Wishlist.jsx';
 import Checkout from './Checkout.jsx';
 
 class App extends Component {
@@ -14,7 +15,8 @@ class App extends Component {
       inventory: [],
       inventoryStorage: [],
       cart: [],
-      username: "guest",
+      wishlist: [],
+      username: "Guest",
       search: '',
       qty: [],
       description: '',
@@ -32,6 +34,9 @@ class App extends Component {
     this.handleCloseWindow = this.handleCloseWindow.bind(this);
     this.enableConfirmPurchase = this.enableConfirmPurchase.bind(this);
     this.handleConfirmPurchase = this.handleConfirmPurchase.bind(this);
+    this.handleAddToWishlist = this.handleAddToWishlist.bind(this);
+    this.handleRemoveFromWL = this.handleRemoveFromWL.bind(this);
+    this.handleAddToCartFromWL = this.handleAddToCartFromWL.bind(this);
   }
 
   componentDidMount() {
@@ -51,8 +56,21 @@ class App extends Component {
   }
 
   // --------------------------------------------------- Sign-in / Sign-up -----------------------------------------------------------------------------------------------------------
+  handleDisplaySignIn() {
+    let signIn = document.getElementById('sign-in-display');
+
+    signIn.style.display = 'block';
+  }
+
+  handleCloseSignIn() {
+    const signIn = document.getElementById('sign-in-display');
+
+    signIn.style.display = 'none';
+  }
+  
   handleSignIn(e) {
     e.preventDefault();
+    const signIn = document.getElementById('sign-in-display');
     const obj = Object.assign({}, this.state);
     let username = e.target.username.value;
 
@@ -64,6 +82,7 @@ class App extends Component {
       .then(response => {
         if (response.data !== false) {
           this.setState({ username });
+          signIn.style.display = 'none';
           alert('Logged in as ' + username);
         } else { alert('Invalid Login'); }
       });
@@ -74,6 +93,7 @@ class App extends Component {
 
   handleSignUp(e) {
     e.preventDefault();
+    const signIn = document.getElementById('sign-in-display');
     const obj = Object.assign({}, this.state);
     let username = e.target.username.value;
 
@@ -85,6 +105,7 @@ class App extends Component {
       .then(response => {
         if (response.data === true) {
           this.setState({ username });
+          signIn.style.display = 'none';
           alert('Account created! You are now logged in as ' + username);
         } else if (response.data !== true) {
           alert('Error, account not created.');
@@ -183,10 +204,58 @@ class App extends Component {
     qty = [];
     this.setState({ cart, qty });
   }
+  
+  // --------------------------------------------------- wishlist management -----------------------------------------------------------------------------------------------------------
+
+  handleAddToWishlist(e) {
+    e.preventDefault();
+    const obj = Object.assign({}, this.state);
+    let wishlist = obj.wishlist;
+    let inventory = obj.inventory;
+    const x = Math.round(e.target.id.replace(/[^0-9]/g, ''));
+
+    if (wishlist.indexOf(inventory[x]) === -1 && this.state.username !== 'Guest') {
+      wishlist.push(inventory[x]);
+    } else if (this.state.username !== 'Guest') {
+       alert('That item is already on your wishlist!')
+      } else alert('You must be logged in to create a wishlist.');
+
+    this.setState({ wishlist });
+  }
+
+  handleRemoveFromWL(e) {
+    e.preventDefault();
+    const obj = Object.assign({}, this.state);
+    let wishlist = obj.wishlist;
+
+    wishlist = wishlist.filter((x) => {
+      return ((x.name + 'WL') !== e.target.id);
+    });
+
+    this.setState({ wishlist });
+  }
+
+  handleAddToCartFromWL(e) {
+    e.preventDefault();
+    const obj = Object.assign({}, this.state);
+    let cart = obj.cart;
+    let wishlist = obj.wishlist;
+    let qty = obj.qty;
+    const x = Math.round(e.target.id.replace(/[^0-9]/g, ''));
+
+    if (cart.indexOf(wishlist[x]) === -1) {
+      cart.push(wishlist[x]);
+      qty.push(1);
+      wishlist.splice(x , 1);
+    } else { alert('That item is already in your cart!') }
+
+    this.setState({ cart, qty, wishlist });
+  }
 
   // --------------------------------------------------- checking out -----------------------------------------------------------------------------------------------------------
   handleCheckout() {
     let checkout = document.getElementById('fade');
+
     checkout.style.display = 'block';
   }
 
@@ -194,6 +263,7 @@ class App extends Component {
     const checkout = document.getElementById('fade');
     const checkbox = document.getElementById('checkbox');
     const confirmPurchase = document.getElementById('confirmPurchase');
+
     checkout.style.display = 'none';
     checkbox.checked = false;
     confirmPurchase.disabled = true;
@@ -250,32 +320,17 @@ class App extends Component {
         qty = [];
         this.setState({ cart, qty });
     } else alert('Error, purchase not successful. Please fill out all fields.');
-
-
   }
 
 
   render() {
     return (
       <div>
-        Logged in as: {this.state.username}
-        <div id="sign-in-container">
-          <form onSubmit={this.handleSignIn} >
-            <input type="text" placeholder="username" name="username"></input>
-            <input type="password" placeholder="password" name="password"></input>
-            <button type="submit">Sign In</button>
-          </form>
-        </div>
-        <div id="sign-up-container">
-          <form onSubmit={this.handleSignUp} >
-            <input type="text" placeholder="username" name="username"></input>
-            <input type="password" placeholder="password" name="password"></input>
-            <button type="submit">Sign Up</button>
-          </form>
-        </div>
+        <SignIn displaySignIn={this.handleDisplaySignIn} closeSignIn={this.handleCloseSignIn} signIn={this.handleSignIn} signUp={this.handleSignUp} username={this.state.username}/>
         <Search clearSearch={this.handleClearSearch} search={this.handleSearch} />
-        <Items showFullDescription={this.handleShowFullDescription} hideFullDescription={this.handleHideFullDescription} inventory={this.state.inventory} addToCart={this.handleAddToCart} description={this.state.description} />
+        <Items showFullDescription={this.handleShowFullDescription} hideFullDescription={this.handleHideFullDescription} inventory={this.state.inventory} addToCart={this.handleAddToCart} description={this.state.description} addToWishlist={this.handleAddToWishlist} removeFromWL={this.handleRemoveFromWL} />
         <Cart checkout={this.handleCheckout} clearCart={this.handleClearCart} remove={this.handleRemove} cart={this.state.cart} qty={this.state.qty} />
+        <Wishlist username={this.state.username} wishlist={this.state.wishlist} removeFromWL={this.handleRemoveFromWL} addToCartFromWL={this.handleAddToCartFromWL}/>
         <Checkout confirmPurchase={this.handleConfirmPurchase} enableConfirmPurchase={this.enableConfirmPurchase} closeWindow={this.handleCloseWindow} />
       </div>
     );

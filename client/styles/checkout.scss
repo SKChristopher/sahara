@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Archivo+Black);
+
 #fade {
   top: 0;
   left: 0;
@@ -16,17 +18,21 @@
     height: 75%;
     background-color: white;
     #close-checkout {
-      top: 10px;
+      top: 0;
       right: 10px;
       position: absolute;
       font-size: 30px;
       cursor: pointer;
+      font-family: 'Archivo Black', sans-serif;
     }
     h1{
       text-align: center;
     }
     form {
       text-align: center;
+      #checkbox {
+        margin-bottom: 8px;
+      }
     }
   }
 }

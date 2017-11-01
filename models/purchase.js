@@ -5,7 +5,7 @@ const purchaseSchema = new Schema({
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
   address: { type: String, required: true },
-  creditcard: { type: Number, required: true },
+  creditcard: { type: String, required: true },
   purchase: { type: Object, required: true },
 });
 

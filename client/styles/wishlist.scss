@@ -1,0 +1,41 @@
+.wishlist-container {
+  right: 0;
+  position: absolute;
+  li {
+    list-style: none;
+    margin-bottom: 3px;
+  }
+  .add-to-cart-from-WL {
+    width: 50px;
+    background-color: white;
+    text-decoration: none;
+    padding: 4px;
+    font-size: 10px;
+    font-family: 'Archivo Black', sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid black;
+    margin-right: 4px;
+  }
+  .add-to-cart-from-WL:hover {
+    background-color: black;
+    color: white;
+  }
+  .x-button {
+    width: 50px;
+    background-color: black;
+    text-decoration: none;
+    padding: 4px;
+    font-size: 10px;
+    font-family: 'Archivo Black', sans-serif;
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    color: white;
+  }
+  .WLImage {
+    max-height: 25px;
+    top: 9.5px;
+    position: relative;
+  }
+}

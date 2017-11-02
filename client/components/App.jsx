@@ -67,12 +67,13 @@ class App extends Component {
 
     signIn.style.display = 'none';
   }
-  
+
   handleSignIn(e) {
     e.preventDefault();
     const signIn = document.getElementById('sign-in-display');
     const obj = Object.assign({}, this.state);
     let username = e.target.username.value;
+    let wishlist = [];
 
     axios
       .post("verifyUser", {
@@ -81,9 +82,10 @@ class App extends Component {
       })
       .then(response => {
         if (response.data !== false) {
-          this.setState({ username });
+          if (response.data !== '') wishlist = response.data;
+          this.setState({ username, wishlist });
           signIn.style.display = 'none';
-          alert('Logged in as ' + username);
+          console.log('Logged in as ' + username);
         } else { alert('Invalid Login'); }
       });
 
@@ -96,6 +98,7 @@ class App extends Component {
     const signIn = document.getElementById('sign-in-display');
     const obj = Object.assign({}, this.state);
     let username = e.target.username.value;
+    let wishlist = [];
 
     axios
       .post("createUser", {
@@ -104,7 +107,7 @@ class App extends Component {
       })
       .then(response => {
         if (response.data === true) {
-          this.setState({ username });
+          this.setState({ username, wishlist });
           signIn.style.display = 'none';
           alert('Account created! You are now logged in as ' + username);
         } else if (response.data !== true) {
@@ -204,7 +207,7 @@ class App extends Component {
     qty = [];
     this.setState({ cart, qty });
   }
-  
+
   // --------------------------------------------------- wishlist management -----------------------------------------------------------------------------------------------------------
 
   handleAddToWishlist(e) {
@@ -217,10 +220,24 @@ class App extends Component {
     if (wishlist.indexOf(inventory[x]) === -1 && this.state.username !== 'Guest') {
       wishlist.push(inventory[x]);
     } else if (this.state.username !== 'Guest') {
-       alert('That item is already on your wishlist!')
-      } else alert('You must be logged in to create a wishlist.');
+      alert('That item is already on your wishlist!')
+    } else alert('You must be logged in to create a wishlist.');
 
     this.setState({ wishlist });
+
+    axios
+      .post("manageWL", {
+        username: this.state.username,
+        wishlistStorage: this.state.wishlist,
+      })
+      .then(response => {
+        if (response.data !== false) {
+          console.log('wishlist updated');
+        } else if (response.data === false) {
+          alert('Error');
+          return;
+        }
+      });
   }
 
   handleRemoveFromWL(e) {
@@ -233,6 +250,20 @@ class App extends Component {
     });
 
     this.setState({ wishlist });
+
+    axios
+      .post("manageWL", {
+        username: this.state.username,
+        wishlistStorage: this.state.wishlist,
+      })
+      .then(response => {
+        if (response.data !== false) {
+          console.log('wishlist updated');
+        } else if (response.data === false) {
+          alert('Error');
+          return;
+        }
+      });
   }
 
   handleAddToCartFromWL(e) {
@@ -246,17 +277,37 @@ class App extends Component {
     if (cart.indexOf(wishlist[x]) === -1) {
       cart.push(wishlist[x]);
       qty.push(1);
-      wishlist.splice(x , 1);
+      wishlist.splice(x, 1);
     } else { alert('That item is already in your cart!') }
 
     this.setState({ cart, qty, wishlist });
+
+    axios
+      .post("manageWL", {
+        username: this.state.username,
+        wishlistStorage: this.state.wishlist,
+      })
+      .then(response => {
+        if (response.data !== false) {
+          console.log('wishlist updated');
+        } else if (response.data === false) {
+          alert('Error');
+          return;
+        }
+      });
   }
 
   // --------------------------------------------------- checking out -----------------------------------------------------------------------------------------------------------
   handleCheckout() {
-    let checkout = document.getElementById('fade');
+    let obj = Object.assign({}, this.state);
 
-    checkout.style.display = 'block';
+    if (obj.qty !== []) {
+      let checkout = document.getElementById('fade');
+      console.log(obj.cart);
+      checkout.style.display = 'block';
+    } else {
+      alert('You must have atleast 1 item in your cart before checking out.');
+    }
   }
 
   handleCloseWindow() {
@@ -292,7 +343,7 @@ class App extends Component {
 
     for (let i = 0; i < cart.length; i += 1) {
       cart[i].qty = qty[i];
-     // cart[i].description = '';
+      // cart[i].description = '';
     }
 
     if (e.target.firstname.value !== '' && e.target.lastname.value !== '' && e.target.address.value !== '' && e.target.creditcard.value !== '') {
@@ -307,18 +358,18 @@ class App extends Component {
           if (response.data === true) {
             alert('Purchase Complete!');
           } else if (response.data !== true) {
-            alert('Error, purchase not successful.');  
+            alert('Error, purchase not successful.');
             return;
           }
         });
 
-        checkout.style.display = 'none';
-        checkbox.checked = false;
-        confirmPurchase.disabled = true;
-        creditCardInput.value = '';
-        cart = [];
-        qty = [];
-        this.setState({ cart, qty });
+      checkout.style.display = 'none';
+      checkbox.checked = false;
+      confirmPurchase.disabled = true;
+      creditCardInput.value = '';
+      cart = [];
+      qty = [];
+      this.setState({ cart, qty });
     } else alert('Error, purchase not successful. Please fill out all fields.');
   }
 
@@ -326,11 +377,11 @@ class App extends Component {
   render() {
     return (
       <div>
-        <SignIn displaySignIn={this.handleDisplaySignIn} closeSignIn={this.handleCloseSignIn} signIn={this.handleSignIn} signUp={this.handleSignUp} username={this.state.username}/>
+        <SignIn displaySignIn={this.handleDisplaySignIn} closeSignIn={this.handleCloseSignIn} signIn={this.handleSignIn} signUp={this.handleSignUp} username={this.state.username} />
         <Search clearSearch={this.handleClearSearch} search={this.handleSearch} />
         <Items showFullDescription={this.handleShowFullDescription} hideFullDescription={this.handleHideFullDescription} inventory={this.state.inventory} addToCart={this.handleAddToCart} description={this.state.description} addToWishlist={this.handleAddToWishlist} removeFromWL={this.handleRemoveFromWL} />
         <Cart checkout={this.handleCheckout} clearCart={this.handleClearCart} remove={this.handleRemove} cart={this.state.cart} qty={this.state.qty} />
-        <Wishlist username={this.state.username} wishlist={this.state.wishlist} removeFromWL={this.handleRemoveFromWL} addToCartFromWL={this.handleAddToCartFromWL}/>
+        <Wishlist username={this.state.username} wishlist={this.state.wishlist} removeFromWL={this.handleRemoveFromWL} addToCartFromWL={this.handleAddToCartFromWL} />
         <Checkout confirmPurchase={this.handleConfirmPurchase} enableConfirmPurchase={this.enableConfirmPurchase} closeWindow={this.handleCloseWindow} />
       </div>
     );

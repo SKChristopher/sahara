@@ -1,8 +1,14 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
 #sign-in-text {
   text-align: center;
   #signin-up {
     cursor: pointer;
     color: green;
+    font-family: 'Roboto', sans-serif;
+  }
+  #signin-up:hover {
+    text-decoration: underline;
   }
 }
 
@@ -16,6 +22,17 @@
   height: 100%;
   z-index: 900;
   background-color: rgba(0, 0, 0, .5);
+  button {
+    background-color: black;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+    font-size: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 0;
+    color: white;
+    width: 125px;
+  }
   #signIn-box {
     background-color: white;
     position: fixed;
@@ -44,6 +61,7 @@
 }
 
 #logged-in-as {
+  font-family: 'Roboto', sans-serif;
   #user {
     color: blue;
   }

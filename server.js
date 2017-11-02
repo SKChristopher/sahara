@@ -21,6 +21,8 @@ app.get('/getInventory', itemController.get);
 app.post('/verifyUser', userController.verify);
 app.post('/createUser', userController.create);
 
+app.post('/manageWL', userController.manageWL);
+
 app.post('/confirmPurchase', purchaseController.create);
 
 app.listen(process.env.PORT || 3000);

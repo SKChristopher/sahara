@@ -16,9 +16,9 @@ const SignIn = (props) => {
         <div id="sign-in-container">
           Sign In:
           <form onSubmit={props.signIn} >
-            <input type="text" placeholder="username" name="username"></input>
+            <input autocomplete="off" id="username-box" type="text" placeholder="username" name="username"></input>
             <br />
-            <input type="password" placeholder="password" name="password"></input>
+            <input autocomplete="off" type="password" placeholder="password" name="password"></input>
             <br />
             <button type="submit">Sign In</button>
           </form>
@@ -27,9 +27,9 @@ const SignIn = (props) => {
           <br />
           Sign Up:
           <form onSubmit={props.signUp} >
-            <input type="text" placeholder="username" name="username"></input>
+            <input autocomplete="off" type="text" placeholder="username" name="username"></input>
             <br />
-            <input type="password" placeholder="password" name="password"></input>
+            <input autocomplete="off" type="password" placeholder="password" name="password"></input>
             <br />
             <button type="submit">Sign Up</button>
           </form>

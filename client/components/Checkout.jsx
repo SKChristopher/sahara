@@ -9,13 +9,13 @@ const Checkout = ({ closeWindow, enableConfirmPurchase, confirmPurchase }) => {
         <div id='close-checkout' onClick={closeWindow}>X</div>
         <h1>Checkout</h1>
         <form onSubmit={confirmPurchase}>
-          <input type="text" placeholder="First Name" name="firstname"></input>
+          <input autocomplete="off" type="text" placeholder="First Name" name="firstname"></input>
           <br /><br />
-          <input type="text" placeholder="Last Name" name="lastname"></input>
+          <input autocomplete="off" type="text" placeholder="Last Name" name="lastname"></input>
           <br /><br />
-          <input type="text" placeholder="Address" name="address"></input>
+          <input autocomplete="off" type="text" placeholder="Address" name="address"></input>
           <br /><br />
-          <input id="credit-card" type="text" placeholder="Credit Card #" name="creditcard"></input>
+          <input autocomplete="off" id="credit-card" type="text" placeholder="Credit Card #" name="creditcard"></input>
           <br /><br />
           <input onClick={enableConfirmPurchase} id="checkbox" type="checkbox" name="ready" value="ready"></input>I agree to pay and I'm ready to checkout.
           <br />

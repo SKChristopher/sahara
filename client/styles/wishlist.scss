@@ -1,9 +1,21 @@
 .wishlist-container {
   right: 0;
-  position: absolute;
+  position: fixed;
+  margin-right: 1%;
+  width: 20%;
+  #wishlist-guest-text {
+    font-family: 'Roboto', sans-serif;
+  }
+  .wishlist-title {
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+  }
   li {
     list-style: none;
     margin-bottom: 3px;
+    font-family: 'Roboto', sans-serif;
   }
   .add-to-cart-from-WL {
     width: 50px;

@@ -8,10 +8,10 @@ const Search = (props) => {
     <div id="search-container">
       <form onSubmit={props.search}>
         <input autocomplete="off" type="text" name="search" placeholder="search"></input>
-        <button id="searchButton" type="submit"><FontAwesome id="searchIcon" name="search"/> Search</button>
+        <button id="searchButton" type="submit"><FontAwesome id="searchIcon" name="search"/></button>
       </form>
       <form onSubmit={props.clearSearch} >
-        <button>Clear Search</button>
+        <button id="clear-search-button" >Clear Search</button>
       </form>
     </div>
   );

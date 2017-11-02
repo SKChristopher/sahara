@@ -25,6 +25,7 @@ class App extends Component {
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleClearSearch = this.handleClearSearch.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleAddToCart = this.handleAddToCart.bind(this);
     this.handleShowFullDescription = this.handleShowFullDescription.bind(this);
     this.handleHideFullDescription = this.handleHideFullDescription.bind(this);
@@ -141,6 +142,16 @@ class App extends Component {
     let inventory = this.state.inventoryStorage;
     this.setState({ inventory });
     console.log('hello');
+  }
+
+  handleSearchChange(e) {
+    const obj = Object.assign({}, this.state);
+    let inventory = obj.inventoryStorage;
+    let search = obj.search;
+    console.log(e.target.value);
+
+    search = e.target.value;
+    this.setState({ search });
   }
 
   // --------------------------------------------------- inventory -----------------------------------------------------------------------------------------------------------
@@ -300,10 +311,9 @@ class App extends Component {
   // --------------------------------------------------- checking out -----------------------------------------------------------------------------------------------------------
   handleCheckout() {
     let obj = Object.assign({}, this.state);
-
-    if (obj.qty !== []) {
+    let checkcheckout = obj.cart;
+    if (checkcheckout.length !== 0) {
       let checkout = document.getElementById('fade');
-      console.log(obj.cart);
       checkout.style.display = 'block';
     } else {
       alert('You must have atleast 1 item in your cart before checking out.');
@@ -378,7 +388,7 @@ class App extends Component {
     return (
       <div>
         <SignIn displaySignIn={this.handleDisplaySignIn} closeSignIn={this.handleCloseSignIn} signIn={this.handleSignIn} signUp={this.handleSignUp} username={this.state.username} />
-        <Search clearSearch={this.handleClearSearch} search={this.handleSearch} />
+        <Search clearSearch={this.handleClearSearch} search={this.handleSearch} searchChange={this.handleSearchChange} />
         <Items showFullDescription={this.handleShowFullDescription} hideFullDescription={this.handleHideFullDescription} inventory={this.state.inventory} addToCart={this.handleAddToCart} description={this.state.description} addToWishlist={this.handleAddToWishlist} removeFromWL={this.handleRemoveFromWL} />
         <Cart checkout={this.handleCheckout} clearCart={this.handleClearCart} remove={this.handleRemove} cart={this.state.cart} qty={this.state.qty} />
         <Wishlist username={this.state.username} wishlist={this.state.wishlist} removeFromWL={this.handleRemoveFromWL} addToCartFromWL={this.handleAddToCartFromWL} />

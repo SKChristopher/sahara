@@ -7,7 +7,7 @@ const Search = (props) => {
   return (
     <div id="search-container">
       <form onSubmit={props.search}>
-        <input autocomplete="off" type="text" name="search" placeholder="search"></input>
+        <input onChange={props.searchChange} autocomplete="off" type="text" name="search" placeholder="search"></input>
         <button id="searchButton" type="submit"><FontAwesome id="searchIcon" name="search"/></button>
       </form>
       <form onSubmit={props.clearSearch} >

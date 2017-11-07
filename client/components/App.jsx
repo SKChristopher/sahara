@@ -151,9 +151,23 @@ class App extends Component {
     console.log(e.target.value);
 
     search = e.target.value;
-    this.setState({ search });
+    inventory = inventory.filter((x) => {
+      const lowerCase = x.name.toLowerCase();
+      return lowerCase.indexOf(e.target.value) !== -1;
+    });
+    this.setState({ inventory, search });
   }
 
+  searchFiltering() {
+    const filterInventory = (inventory, search) => {
+      inventory = inventory.filter((x) => {
+        const lowerCase = x.name.toLowerCase();
+        return lowerCase.indexOf(search) !== -1;
+      });
+      return inventory;
+    }
+    filterInventory(obj.inventory, e.target.search.value);
+  }
   // --------------------------------------------------- inventory -----------------------------------------------------------------------------------------------------------
   handleShowFullDescription(e) {
     let descriptionBox = document.getElementById('description');
@@ -236,19 +250,21 @@ class App extends Component {
 
     this.setState({ wishlist });
 
-    axios
-      .post("manageWL", {
-        username: this.state.username,
-        wishlistStorage: this.state.wishlist,
-      })
-      .then(response => {
-        if (response.data !== false) {
-          console.log('wishlist updated');
-        } else if (response.data === false) {
-          alert('Error');
-          return;
-        }
-      });
+    if (this.state.username !== 'Guest') {
+      axios
+        .post("manageWL", {
+          username: this.state.username,
+          wishlistStorage: this.state.wishlist,
+        })
+        .then(response => {
+          if (response.data !== false) {
+            console.log('wishlist updated');
+          } else if (response.data === false) {
+            alert('Error');
+            return;
+          }
+        });
+    }
   }
 
   handleRemoveFromWL(e) {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import './../styles/app.scss';
+
 import SignIn from './SignIn.jsx';
 import Items from './Items.jsx';
 import Search from './Search.jsx';

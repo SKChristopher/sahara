@@ -9,6 +9,16 @@
     text-align: center;
     font-family: 'Lato', sans-serif;
   }
+  .minimize-button {
+    float: right;
+    margin-right: 3px;
+    color: white;
+    position: relative;
+    font-family: default;
+  }
+  .minimize-button:hover {
+    cursor: pointer;
+  }
   li {
     list-style: none;
     margin-bottom: 3px;

@@ -20,6 +20,7 @@ class App extends Component {
       search: '',
       qty: [],
       description: '',
+      showCart: true,
     };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
@@ -38,6 +39,8 @@ class App extends Component {
     this.handleAddToWishlist = this.handleAddToWishlist.bind(this);
     this.handleRemoveFromWL = this.handleRemoveFromWL.bind(this);
     this.handleAddToCartFromWL = this.handleAddToCartFromWL.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.handleCloseCart = this.handleCloseCart.bind(this);
   }
 
   componentDidMount() {
@@ -119,6 +122,11 @@ class App extends Component {
 
     e.target.username.value = "";
     e.target.password.value = "";
+  }
+
+  handleLogout() {
+    const username = 'Guest';
+    this.setState({ username });
   }
 
   // --------------------------------------------------- searching -----------------------------------------------------------------------------------------------------------
@@ -231,6 +239,11 @@ class App extends Component {
     cart = [];
     qty = [];
     this.setState({ cart, qty });
+  }
+
+  handleCloseCart() {
+    const showCart = !this.state.showCart;
+    this.setState({ showCart });
   }
 
   // --------------------------------------------------- wishlist management -----------------------------------------------------------------------------------------------------------
@@ -403,10 +416,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        <SignIn displaySignIn={this.handleDisplaySignIn} closeSignIn={this.handleCloseSignIn} signIn={this.handleSignIn} signUp={this.handleSignUp} username={this.state.username} />
+        <SignIn logout={this.handleLogout} displaySignIn={this.handleDisplaySignIn} closeSignIn={this.handleCloseSignIn} signIn={this.handleSignIn} signUp={this.handleSignUp} username={this.state.username} />
         <Search clearSearch={this.handleClearSearch} search={this.handleSearch} searchChange={this.handleSearchChange} />
         <Items showFullDescription={this.handleShowFullDescription} hideFullDescription={this.handleHideFullDescription} inventory={this.state.inventory} addToCart={this.handleAddToCart} description={this.state.description} addToWishlist={this.handleAddToWishlist} removeFromWL={this.handleRemoveFromWL} />
-        <Cart checkout={this.handleCheckout} clearCart={this.handleClearCart} remove={this.handleRemove} cart={this.state.cart} qty={this.state.qty} />
+        <Cart closeCart={this.handleCloseCart} showCart={this.state.showCart} checkout={this.handleCheckout} clearCart={this.handleClearCart} remove={this.handleRemove} cart={this.state.cart} qty={this.state.qty} />
         <Wishlist username={this.state.username} wishlist={this.state.wishlist} removeFromWL={this.handleRemoveFromWL} addToCartFromWL={this.handleAddToCartFromWL} />
         <Checkout confirmPurchase={this.handleConfirmPurchase} enableConfirmPurchase={this.enableConfirmPurchase} closeWindow={this.handleCloseWindow} />
       </div>

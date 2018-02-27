@@ -39,3 +39,4 @@ const Cart = ({ cart, qty, remove, clearCart, checkout, showCart, closeCart }) =
 }
 
 export default Cart;
+
